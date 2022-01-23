@@ -1,3 +1,5 @@
+// Reference https://leetcode.com/problems/pascals-triangle/discuss/38141/My-concise-solution-in-Java
+
 class Solution {
     public List<List<Integer>> generate(int numRows) {
         List<List<Integer>> pascalsTriangle = new ArrayList<>();
