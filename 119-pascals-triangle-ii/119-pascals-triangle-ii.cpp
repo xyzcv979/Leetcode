@@ -1,3 +1,6 @@
+// Reference
+// https://leetcode.com/problems/pascals-triangle-ii/solution/
+
 class Solution {
 public:
     vector<int> getRow(int rowIndex) {
