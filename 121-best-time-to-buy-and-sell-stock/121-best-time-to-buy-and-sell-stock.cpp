@@ -4,9 +4,10 @@ public:
         int maxProfit = 0;
         int maxVal = 0;
         for(int i = prices.size() - 1; i >= 0; i--){
-            maxVal = max(prices[i], maxVal);
-            int profit = maxVal - prices[i];
-            maxProfit = max(maxProfit, profit);
+            if(prices[i] > maxVal)
+                maxVal = prices[i];
+            else
+                maxProfit = max(maxProfit, maxVal - prices[i]);
         }
         return maxProfit;
     }
