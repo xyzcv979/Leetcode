@@ -1,5 +1,20 @@
 class Solution {
 public:
+    string countSort(string s){
+        int count[26] = {0};
+        for(char c : s)
+            count[c - 'a']++;
+        string t = s;
+        int indexT = 0;
+        for(int i = 0; i < 26; i++){
+            while(count[i] > 0){
+                t[indexT++] = i + 'a';
+                count[i]--;
+            }
+        }
+            
+        return t;
+    }
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
         if(strs.size() < 2)
             return vector<vector<string>>{strs};
@@ -7,9 +22,7 @@ public:
         vector<vector<string>> ans;
         unordered_map<string, vector<string>> hashMap;
         for(string s : strs){
-            string t = s;
-            sort(t.begin(), t.end());
-            hashMap[t].push_back(s);
+            hashMap[countSort(s)].push_back(s);
         }
         
         for(auto strs : hashMap){
