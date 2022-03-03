@@ -16,14 +16,16 @@ public:
             int currLetter = s[right] - 'A';
             counts[currLetter]++;
             localMaxCount = max(localMaxCount, counts[currLetter]);
-            if((right - left + 1) - localMaxCount > k){
-                ret = max(ret, right - left);
+            while((right - left + 1) - localMaxCount > k){
                 counts[s[left] - 'A']--;
                 left++;
-                
+                for(int i = 0; i < 26; i++){
+                    localMaxCount = max(localMaxCount, counts[i]);
+                }
             }
+            ret = max(ret, right - left + 1);
         }
         
-        return max(ret, right - left);
+        return ret;
     }
 };
