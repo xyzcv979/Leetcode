@@ -10,13 +10,14 @@ public:
         return ret;
     }
     bool isHappy(int n) {
-        unordered_set<int> seen;
-        while(n != 1){
-            if(seen.count(n) > 0)
-                break;
-            seen.insert(n);
-            n = happify(n);
+        int firstPtr = n;
+        int secondPtr = happify(n);
+        while(secondPtr != 1){
+            if(firstPtr == secondPtr)
+                return false;
+            firstPtr = happify(firstPtr);
+            secondPtr = happify(happify(secondPtr));
         }
-        return (n == 1);
+        return true;
     }
 };
