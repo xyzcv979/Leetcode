@@ -18,6 +18,6 @@ public:
             firstPtr = happify(firstPtr);
             secondPtr = happify(happify(secondPtr));
         }
-        return true;
+        return secondPtr == 1;
     }
 };
