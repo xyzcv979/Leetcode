@@ -1,24 +1,21 @@
 class Solution {
-    bool isPalindrome(const string& s, int lo, int hi) {
-        while (lo < hi) {
-            if (s[lo] != s[hi])
-                return false;
-
-            ++lo;
-            --hi;
-        }
-
-        return true;
-    }
-
  public:
     int countSubstrings(string s) {
         int ans = 0;
-
-        for (int lo = 0; lo < s.size(); ++lo)
-            for (int hi = lo; hi < s.size(); ++hi)
-                ans += isPalindrome(s, lo, hi);
-
+        for(int i = 0; i < s.size(); i++){
+            ans += countAroundCenter(s, i, i); // Odd
+            ans += countAroundCenter(s, i, i + 1); // Even;
+        }
         return ans;
+    }
+    
+    int countAroundCenter(string s, int left, int right){
+        int count = 0;
+        while(left >= 0 && right < s.size() && s[left] == s[right]){
+            count++;
+            left--;
+            right++;
+        }
+        return count;
     }
 };
