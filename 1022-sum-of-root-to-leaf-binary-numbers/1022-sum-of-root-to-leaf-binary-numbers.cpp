@@ -10,24 +10,26 @@
  * };
  */
 class Solution {
-    int ans = 0;
+   
 public:
+    int ans = 0;
     int sumRootToLeaf(TreeNode* root) {
-        int pathNum = 0;
-        dfs(root, pathNum);
+        int pathSum = 0;
+        dfs(root, pathSum);
         return ans;
     }
     
-    void dfs(TreeNode* root, int pathNum){
+    void dfs(TreeNode* root, int pathSum){
         if(root == NULL) return;
         
-        pathNum <<= 1; // Shift by 1
-        pathNum += root->val; // Either 1 or 0
+        pathSum <<= 1;
+        pathSum += root->val;
         if(root->left == NULL && root->right == NULL)
-            ans += pathNum;
-        
-        if(root->left != NULL) dfs(root->left, pathNum);
-        if(root->right != NULL) dfs(root->right, pathNum);
-        
+            ans += pathSum;
+        if(root->left != NULL)
+            dfs(root->left, pathSum);
+        if(root->right != NULL)
+            dfs(root->right, pathSum);
     }
+
 };
