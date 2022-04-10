@@ -19,6 +19,6 @@ public:
             res = (res * pq.top()) % modNum;
             pq.pop();
         }
-        return (int)res;
+        return res;
     }
 };
