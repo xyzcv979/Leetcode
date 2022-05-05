@@ -19,10 +19,9 @@ public:
         
         ret = q1.front();
         q1.pop();
-        while(!q2.empty()){
-            q1.push(q2.front());
-            q2.pop();
-        }
+        queue<int> temp = q1;
+        q1 = q2;
+        q2 = temp;
         
         return ret;
         
@@ -39,10 +38,9 @@ public:
         ret = q1.front();
         q2.push(q1.front());
         q1.pop();
-        while(!q2.empty()){
-            q1.push(q2.front());
-            q2.pop();
-        }
+        queue<int> temp = q1;
+        q1 = q2;
+        q2 = temp;
         
         return ret;
     }
