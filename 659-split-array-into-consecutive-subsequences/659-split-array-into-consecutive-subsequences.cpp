@@ -10,14 +10,17 @@ public:
             if(!freq[num]) continue;
             freq[num]--;
             
+            // checking valid subsequence
             if(end[num-1] > 0) {
                 end[num-1]--;
                 end[num]++;
-            } else if(freq[num + 1] && freq[num + 2]) {
+            } 
+            // starting a new subsequence = need num+1 and num+2 to exist
+            else if(freq[num + 1] && freq[num + 2]) {
                 freq[num+1]--;
                 freq[num+2]--;
                 end[num+2]++;
-            } else {
+            } else { // no valid subsequence is possible
                 return false;
             }
         }
