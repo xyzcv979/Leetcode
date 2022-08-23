@@ -15,7 +15,7 @@ public:
         string s;
         
         while(head) {
-            s += to_string(head->val);
+            s += (head->val);
             head = head->next;
         }
         
