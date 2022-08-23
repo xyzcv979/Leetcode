@@ -10,21 +10,22 @@
  */
 class Solution {
 public:
-    ListNode* frontPtr;
+
     bool isPalindrome(ListNode* head) {
-        frontPtr = head;
-        return recurse(frontPtr);
+        string s;
+        
+        while(head) {
+            s += to_string(head->val);
+            head = head->next;
+        }
+        
+        string s2 = s;
+        reverse(s.begin(), s.end());
+        
+        return s2 == s;
     }
     
-    bool recurse(ListNode* currNode) {
-        if(!currNode) return true;
-        
-        if(!recurse(currNode->next)) return false;
-        if(currNode->val != frontPtr->val) return false;
-        frontPtr = frontPtr->next;
-        
-        return true;
-    }
+
 };
 
 /*
