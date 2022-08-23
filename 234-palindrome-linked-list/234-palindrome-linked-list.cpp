@@ -10,29 +10,18 @@
  */
 class Solution {
 public:
+    ListNode* frontPtr;
     bool isPalindrome(ListNode* head) {
-        ListNode* slow = head, *fast = head;
-        int n = 0;
-        vector<int> upperHalf;
+        frontPtr = head;
+        return recurse(frontPtr);
+    }
+    
+    bool recurse(ListNode* currNode) {
+        if(!currNode) return true;
         
-        while(head && head->next) {
-            head = head->next->next;
-            fast = fast->next;
-        }
-        
-        while(fast) {
-            upperHalf.push_back(fast->val);
-            fast = fast->next;
-        }
-        
-        reverse(upperHalf.begin(), upperHalf.end());
-        
-        int idx = 0;
-        while(idx < upperHalf.size()) {
-            if(slow->val != upperHalf[idx]) return false;
-            slow = slow->next;
-            idx++;
-        }
+        if(!recurse(currNode->next)) return false;
+        if(currNode->val != frontPtr->val) return false;
+        frontPtr = frontPtr->next;
         
         return true;
     }
