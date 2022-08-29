@@ -2,13 +2,38 @@ class Solution {
 public:
     int numIslands(vector<vector<char>>& grid) {
         int count = 0;
-        int n = grid.size(), m = grid[0].size();
+        int row = grid.size(), col = grid[0].size();
         
-        for(int row = 0; row < n; row++) {
-            for(int col = 0; col < m; col++) {
-                if(grid[row][col] == '1') {
-                    dfs(grid, row, col);
-                    count++;
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < col; j++) {
+                if(grid[i][j] == '0') continue;
+                
+                queue<pair<int,int>> que;
+                
+                count++;
+                que.push({i,j});
+                
+                while(!que.empty()){
+                    int x = que.front().first, y = que.front().second;
+                    
+                    que.pop();
+                    
+                    if(x + 1 < row && grid[x+1][y] == '1') {
+                        que.push({x+1, y});
+                        grid[x+1][y] = '0';
+                    }
+                    if(x - 1 >= 0 && grid[x-1][y] == '1') {
+                        que.push({x-1, y});
+                        grid[x-1][y] = '0';
+                    }
+                    if(y + 1 < col && grid[x][y + 1] == '1') {
+                        que.push({x, y + 1});
+                        grid[x][y + 1] = '0';
+                    }
+                    if(y - 1 >= 0 && grid[x][y - 1] == '1') {
+                        que.push({x, y - 1});
+                        grid[x][y - 1] = '0';
+                    }
                 }
             }
         }
@@ -16,15 +41,4 @@ public:
         return count;
     }
     
-    void dfs(vector<vector<char>>& grid, int row, int col) {
-        if(row < 0 || row >= grid.size() || col < 0 || col >= grid[0].size() || grid[row][col] == '0')
-            return;
-        
-        grid[row][col] = '0';
-        
-        dfs(grid, row + 1, col);
-        dfs(grid, row - 1, col);
-        dfs(grid, row, col + 1);
-        dfs(grid, row, col - 1);
-    }
 };
