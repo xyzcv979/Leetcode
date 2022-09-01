@@ -5,7 +5,8 @@ public:
         n = heights.size(), m = heights[0].size();
         set<pair<int, int>> atlantic, pacific;
         
-        // 1. first mark path from oceans to furthest reachable point 
+        // 1. first mark path from oceans to furthest reachable point
+        // all of these points can reach the ocean, add to a set
         
         // for first and last row touching oceans
         for(int col = 0; col < m; col++) {
@@ -33,11 +34,14 @@ public:
     }
     
     void dfs(vector<vector<int>>& heights, int row, int col, set<pair<int, int>>& ocean, int prevHeight) {
+        // continue if already found in ocean path. Ocean acts as a visited set
+        // recall water can only flow from >= heights. Path from ocean goes from less to greater, ie climbing uphill to find path
         if(ocean.count({row, col}) || row < 0 || col < 0 || row == n || col == m || heights[row][col] < prevHeight)
             return;
         
         ocean.insert({row, col});
         
+        // dfs on 4 directions
         dfs(heights, row+1, col, ocean, heights[row][col]);
         dfs(heights, row-1, col, ocean, heights[row][col]);
         dfs(heights, row, col+1, ocean, heights[row][col]);
