@@ -1,58 +1,46 @@
 class Solution {
 public:
-    
-    /// main logic or trick for this problem : bahar se andar ki taraf jao
+    int n, m;
     vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        n = heights.size(), m = heights[0].size();
+        set<pair<int, int>> atlantic, pacific;
         
-        vector<vector<int>>ans;
-        int m = heights.size();
-        int n = heights[0].size();
+        // 1. first mark path from oceans to furthest reachable point 
         
-        vector<vector<bool>> pacific(m, vector<bool>(n));
-        vector<vector<bool>> atlantic(m, vector<bool>(n));
-        
-        for (int i = 0; i < m; i++) {
-            
-            dfs(heights, pacific, i, 0);
-            dfs(heights, atlantic, i, n-1);
-
+        // for first and last row touching oceans
+        for(int col = 0; col < m; col++) {
+            dfs(heights, 0, col, pacific, heights[0][col]); // first row, pacific ocean
+            dfs(heights, n - 1, col, atlantic, heights[n-1][col]); // last row, atlantic ocean
         }
         
-        for (int j = 0; j < n; j++) {
-            
-            dfs(heights, pacific, 0, j);
-            dfs(heights, atlantic, m-1, j);
+        // for first and last column touching oceans
+        for(int row = 0; row < n; row++) {
+            dfs(heights, row, 0, pacific, heights[row][0]);
+            dfs(heights, row, m - 1, atlantic, heights[row][m-1]);
         }
-
         
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                
-                if (pacific[i][j] && atlantic[i][j]) // agar uss particular point se dono oceans mai jaa paa rahe hai
-                    ans.push_back({i,j});           // toh answer push kardo
+        // 2. for points that reach both oceans, add to final result
+        vector<vector<int>> result;
+        for(int row = 0; row < n; row++) {
+            for(int col = 0; col < m; col++) {
+                if(atlantic.count({row, col}) && pacific.count({row, col}))
+                    result.push_back({row, col});
             }
         }
-        return ans;
+        
+        return result;
+        
     }
     
-    void dfs(vector<vector<int>>& h, vector<vector<bool>>& vis, int i, int j) {
+    void dfs(vector<vector<int>>& heights, int row, int col, set<pair<int, int>>& ocean, int prevHeight) {
+        if(ocean.count({row, col}) || row < 0 || col < 0 || row == n || col == m || heights[row][col] < prevHeight)
+            return;
         
-        int m = h.size();
-        int n = h[0].size();
-
-        vis[i][j] = true;
-        //up
-        if (i-1 >= 0 && vis[i-1][j] != true && h[i-1][j] >= h[i][j])
-            dfs(h, vis, i-1, j);
-        //down
-        if (i+1 < m && vis[i+1][j] != true && h[i+1][j] >= h[i][j])
-            dfs(h, vis, i+1, j);
-        //left
-        if (j-1 >= 0 && vis[i][j-1] != true && h[i][j-1] >= h[i][j])
-            dfs(h, vis, i, j-1);
-        //right
-        if (j+1 < n && vis[i][j+1] != true && h[i][j+1] >= h[i][j])
-            dfs(h, vis, i, j+1);
-
+        ocean.insert({row, col});
+        
+        dfs(heights, row+1, col, ocean, heights[row][col]);
+        dfs(heights, row-1, col, ocean, heights[row][col]);
+        dfs(heights, row, col+1, ocean, heights[row][col]);
+        dfs(heights, row, col-1, ocean, heights[row][col]);
     }
 };
