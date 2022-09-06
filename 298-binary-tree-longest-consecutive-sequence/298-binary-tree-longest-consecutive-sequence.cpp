@@ -14,23 +14,22 @@ public:
     int maxCount;
     int longestConsecutive(TreeNode* root) {
         maxCount = 0;
-        dfs(root, INT_MIN, 1);
+        dfs(root, root->val, 1);
         return maxCount;
     }
     
     void dfs(TreeNode* root, int prevVal, int count) {
         if(!root) return;
         
-        int newCount = count;
         if(root->val == prevVal + 1) {
-            newCount++;
+            count++;
         } else {
-            newCount = 1;
+            count = 1;
         }
         
-        maxCount = max(newCount, maxCount);
+        maxCount = max(maxCount, count);
         
-        dfs(root->left, root->val, newCount);
-        dfs(root->right, root->val, newCount);
+        dfs(root->left, root->val, count);
+        dfs(root->right, root->val, count);
     }
 };
