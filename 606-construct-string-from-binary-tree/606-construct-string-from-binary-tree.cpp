@@ -21,13 +21,15 @@ public:
             return "";
         
         string val = to_string(root->val);
+        string left = dfs(root->left);
+        string right = dfs(root->right);
         
         if(!root->left && !root->right)
             return val;
         else if(!root->right)
-            return val + "(" + dfs(root->left) + ")";
+            return val + "(" + left + ")";
         
-        return val + "(" + dfs(root->left) + ")" + "(" + dfs(root->right) + ")"; 
+        return val + "(" + left + ")" + "(" + right + ")"; 
     
     }
 };
