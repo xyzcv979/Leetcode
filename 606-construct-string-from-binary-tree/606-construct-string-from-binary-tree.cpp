@@ -11,29 +11,10 @@
  */
 class Solution {
 public:
-    string ans;
     string tree2str(TreeNode* root) {
         return dfs(root);
     }
     
-//     void dfs(TreeNode* root, bool isRight) {
-//         if(!root) {
-//             if(!isRight)
-//                 s += "()";
-//             return;
-//         }
-        
-//         s += root->val;
-        
-//         if(!root->left && !root->right)
-//             s += ")";
-//         else 
-//             s += "(";
-    
-//         dfs(root->left, false);
-//         dfs(root->right, true);
-        
-//     }
     
     string dfs(TreeNode* root) {
         if(!root)
