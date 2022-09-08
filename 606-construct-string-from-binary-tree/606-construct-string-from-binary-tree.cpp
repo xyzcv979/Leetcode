@@ -15,23 +15,24 @@ public:
         return dfs(root);
     }
     
-    
     string dfs(TreeNode* root) {
         if(!root)
             return "";
         
-        string val = to_string(root->val);
+        string sVal = to_string(root->val);
         string left = dfs(root->left);
         string right = dfs(root->right);
         
-        if(!root->left && !root->right)
-            return val;
-        else if(!root->right)
-            return val + "(" + left + ")";
+        if(!root->left && !root->right) {
+            return sVal;
+        }
+        if(!root->right) {
+            return sVal + "(" + left + ")";
+        }
         
-        return val + "(" + left + ")" + "(" + right + ")"; 
-    
+        return sVal + "(" + left + ")" + "(" + right + ")"; 
     }
+
 };
 
 
