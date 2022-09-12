@@ -32,24 +32,3 @@ public:
         return maxScore;
     }
 };
-
-/*
-1 2 3 4, power = 2
-
-play 1, power = 1, score = 1
-play 4, power = 5, score = 0
-play 3, power = 2, score = 1
-play 2, power = 0, score = 2
-
-return max score
-
-
-play minimum you can with power
-play maximum you can with score
-
-but, idea is to get max score
-so can't just use up all score
-
-use up all power if poss
-
-*/
