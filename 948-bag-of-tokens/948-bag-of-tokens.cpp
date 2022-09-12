@@ -1,13 +1,11 @@
 class Solution {
 public:
-    int maxScore;
     int bagOfTokensScore(vector<int>& tokens, int power) {
-        maxScore = 0;
+        int maxScore = 0;
         int score = 0;
+        int left = 0, right = tokens.size()-1;
         
         sort(tokens.begin(), tokens.end());
-        
-        int left = 0, right = tokens.size()-1;
         
         while(left <= right) {
             if(score == 0 && power == 0)
