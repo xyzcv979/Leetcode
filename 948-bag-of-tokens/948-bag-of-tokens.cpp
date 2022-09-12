@@ -7,10 +7,7 @@ public:
         
         sort(tokens.begin(), tokens.end());
         
-        while(left <= right) {
-            if(score == 0 && power == 0)
-                break;
-            
+        while(left <= right) {       
             int minToken = tokens[left];
             int maxToken = tokens[right];
             
