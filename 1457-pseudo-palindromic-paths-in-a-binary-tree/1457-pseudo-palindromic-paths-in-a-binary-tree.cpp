@@ -29,7 +29,7 @@ public:
             bool oneOdd = false;
             for(int i : counts) {
                 if(i % 2 != 0) {
-                    if(oneOdd)
+                    if(oneOdd) // 2 odd counts, not a palindrome
                         return;
                     oneOdd = true;
                 }
@@ -42,10 +42,3 @@ public:
     }
     
 };
-
-/*
-get all paths
-if path is pseudo palindromic
-   -compute all permuations and check if palindrome?
-   
-*/
