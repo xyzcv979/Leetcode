@@ -11,22 +11,18 @@ public:
 
         for(auto query : queries) {
             int i = query[1];
-            int oldVal = nums[i];
-            int newVal = query[0];
-            int updatedVal = oldVal + newVal;
+            int val = query[0];
             
-            nums[i] = updatedVal;
-            if(oldVal % 2 != 0) {          // oldVal is odd
-                if(updatedVal % 2 == 0) {  // updatedVal is even
-                    rollingSum += updatedVal;
-                }
-            } else { // oldVal is even
-                if(updatedVal % 2 == 0) {  // updatedVal is even
-                    rollingSum += newVal;  // adding updatedVal - oldVal, the diff
-                } else {                   // updatedVal is odd
-                    rollingSum -= oldVal;
-                }
+            if(nums[i] % 2 == 0) {
+                rollingSum -= nums[i];    
             }
+            
+            nums[i] += val;
+            
+            if(nums[i] % 2 == 0) {
+                rollingSum += nums[i];    
+            }
+            
             evenSums.push_back(rollingSum);
         }
         
