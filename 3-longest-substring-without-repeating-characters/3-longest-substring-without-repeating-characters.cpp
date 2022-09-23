@@ -1,23 +1,21 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int length = 0;
-        unordered_set<char> hashSet;
-        int first = 0, second = 0;
-        while(first < s.size() && second < s.size()){
-            char curr = s[second];
-            if(hashSet.count(curr) > 0){
-                hashSet.erase(s[first]);
-                first++;
-            }
-            else{
-                hashSet.insert(curr);
-                second++;
-                length = max(length, second - first);
-                
-            }
-            
+        int longestSub = 0;
+        unordered_set<char> seen;
+        
+        int left = 0, right = 0;
+        while(right < s.size()) {
+            char curr = s[right];
+            while(seen.count(curr)) {
+                seen.erase(s[left]);
+                left++;
+            } 
+            seen.insert(curr);
+            longestSub = max(longestSub, right - left + 1);
+            right++;
         }
-        return length;
+        
+        return longestSub;
     }
 };
