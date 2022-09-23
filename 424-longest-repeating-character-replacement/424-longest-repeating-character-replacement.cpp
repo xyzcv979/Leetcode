@@ -17,7 +17,7 @@ public:
                 left++;
                 windowLen = right - left + 1;
             }
-            longestSub = right - left + 1;
+            longestSub = windowLen;
             right++;
         }
         
