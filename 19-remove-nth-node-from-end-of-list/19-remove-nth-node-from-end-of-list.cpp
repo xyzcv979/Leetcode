@@ -11,20 +11,41 @@
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        if(head->next == NULL)
-            return NULL;
+        ListNode* left = head, *right = head, *prev = NULL;
         
-        ListNode* temp = new ListNode();
-        temp->next = head;
-        ListNode* first = temp, *second = temp;
-        for(int i = 0; i <= n; i++){
-            second = second->next;
+        // 1. loop right ptr to n
+        for(int i = 0; i < n; i++) {
+            right = right->next;
         }
-        while(second != NULL){
-            first = first->next;
-            second = second->next;
+        
+                
+        // left did not move.
+        // [1] n = 1. Should output []
+        if(!right) {
+            return left->next;
         }
-        first->next = first->next->next;
-        return temp->next;
+        
+        // 2. loop right and left till right hits end
+        while(right) {
+            right = right->next;
+            prev = left;
+            left = left->next;
+        }
+
+        // Set prev->next to left->next
+        prev->next = left->next;
+        left->next = NULL;
+        
+        return head;
     }
 };
+
+/*
+loop till n, right ptr
+loop till end, right ptr, left ptr
+left ptr = on nth node
+need to track previous of left
+
+prev->next = nth node ->next
+nth node->next = null
+*/
