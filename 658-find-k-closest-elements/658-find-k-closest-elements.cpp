@@ -2,20 +2,23 @@ class Solution {
 public:
     typedef pair<int, int> pi;
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
-        sort(arr.begin(), arr.end(), [x](int &a, int &b) {
-            if(abs(a-x) < abs(b-x)) {
-                return true;
-            } else if(abs(a-x) == abs(b-x)) {
-                return a<b;
+        int left = 0, right = arr.size() - k;
+        
+        while(left < right) {
+            int mid = left + (right - left) / 2;
+            
+            if(x - arr[mid] > arr[mid + k] - x) {
+                left = mid + 1;
+            } else {
+                right = mid;
             }
-            return false;
-        });
+        }
         
         vector<int> ans;
-        for(int i = 0; i < k; i++) {
+        for(int i = left; i < left + k; i++) {
             ans.push_back(arr[i]);
         }
-        sort(ans.begin(), ans.end());
+        
         return ans;
     }
 };
