@@ -2,20 +2,16 @@ class Solution {
 public:
     int minCost(string colors, vector<int>& neededTime) {
         int minTime = 0;
-        int left = 0;
+        int left = 0, right = 0;
         while(left < colors.size()) {
-            int right = left + 1;
-            
-            priority_queue<int, vector<int>, greater<int>> minHeap;
-            minHeap.push(neededTime[left]);
+            int currTotal = 0, currMax = 0;
             while(right < colors.size() && colors[right] == colors[left]) {
-                minHeap.push(neededTime[right]);
+                currTotal += neededTime[right];
+                currMax = max(currMax, neededTime[right]);
                 right++;
             }
-            while(minHeap.size() > 1) {
-                minTime += minHeap.top();
-                minHeap.pop();
-            }
+            
+            minTime += currTotal - currMax;
             left = right;
         }    
         
