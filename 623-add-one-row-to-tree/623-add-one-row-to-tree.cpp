@@ -38,15 +38,11 @@ public:
         
         
         for(auto currNode : levels[depth-2]) {
-            TreeNode* newLeft = new TreeNode(val);
-            TreeNode* newRight = new TreeNode(val);
-            TreeNode* temp = currNode->left;
-            currNode->left = newLeft;
-            newLeft->left = temp;
+            TreeNode* newLeft = new TreeNode(val, currNode->left, nullptr);
+            TreeNode* newRight = new TreeNode(val, nullptr, currNode->right);
             
-            temp = currNode->right;
+            currNode->left = newLeft;
             currNode->right = newRight;
-            newRight->right = temp;
         }
         
         return root;
