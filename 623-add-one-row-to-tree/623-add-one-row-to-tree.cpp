@@ -12,40 +12,32 @@
 class Solution {
 public:
     TreeNode* addOneRow(TreeNode* root, int val, int depth) {
-        if(depth - 1 == 0) {
-            TreeNode* newNode = new TreeNode(val);
-            newNode->left = root;
-            return newNode;
+        if(depth == 1) {
+            TreeNode* newRoot = new TreeNode(val);
+            newRoot->left = root;
+            return newRoot;
         }
-        queue<TreeNode*> que;
-        vector<vector<TreeNode*>> levels;
         
-        que.push(root);
-        while(!que.empty()) {
-            int size = que.size();
-            vector<TreeNode*> level;
-            for(int i = 0; i < size; i++) {
-                TreeNode* curr = que.front();
-                que.pop();
-                
-                if(curr->left) que.push(curr->left);
-                if(curr->right) que.push(curr->right);
-                level.push_back(curr);
-            }
+        return dfs(root, val, depth, 1);
+    }
+    
+    TreeNode* dfs(TreeNode* curr, int val, int depth, int currDepth) {
+        if(!curr) return NULL;
+        
+        if(currDepth == depth - 1) {
+            TreeNode* newLeft = new TreeNode(val, curr->left, nullptr);
+            TreeNode* newRight = new TreeNode(val, nullptr, curr->right);
             
-            levels.push_back(level);
-        }
-        
-        
-        for(auto currNode : levels[depth-2]) {
-            TreeNode* newLeft = new TreeNode(val, currNode->left, nullptr);
-            TreeNode* newRight = new TreeNode(val, nullptr, currNode->right);
+            curr->left = newLeft;
+            curr->right = newRight;
             
-            currNode->left = newLeft;
-            currNode->right = newRight;
+            return curr;
         }
         
-        return root;
+        curr->left = dfs(curr->left, val, depth, currDepth+1);
+        curr->right = dfs(curr->right, val, depth, currDepth+1);
+        
+        return curr;
     }
 };
 /*
