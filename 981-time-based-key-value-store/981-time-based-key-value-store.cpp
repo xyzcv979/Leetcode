@@ -1,40 +1,28 @@
 class TimeMap {
 public:
-    unordered_map<string, vector<pair<string, int>>> keyTimestamp;
+    unordered_map<string, map<int, string>> keyTimestamp;
     TimeMap() {
         
     }
     
     void set(string key, string value, int timestamp) {
-        keyTimestamp[key].push_back({value, timestamp});
+        keyTimestamp[key][timestamp] = value;
     }
     
     string get(string key, int timestamp) {
-        string prev = "";
-
-        prev = binarySearch(keyTimestamp[key], timestamp);
-        
-        return prev;
-    }
-    
-    string binarySearch(vector<pair<string, int>>& pairs, int timestamp) {
-        int left = 0, right = pairs.size();
-        
-        while(left < right) {
-            int mid = left + (right - left) / 2;
-            int midTime = pairs[mid].second;
-            
-            if(midTime <= timestamp) {
-                left = mid + 1;
-            } else {
-                right = mid;
-            }
+        if(keyTimestamp.find(key) == keyTimestamp.end()) {
+            return "";
         }
         
-        if(left-1 < 0 || left-1 >= pairs.size())
+        auto it = keyTimestamp[key].upper_bound(timestamp);
+        if(it == keyTimestamp[key].begin()) {
             return "";
-        return pairs[left-1].first;
+        }
+        
+        return prev(it)->second;
     }
+    
+   
 };
 /*
 timestamp_prev <= timestamp
