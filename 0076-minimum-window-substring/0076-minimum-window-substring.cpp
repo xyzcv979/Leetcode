@@ -1,50 +1,49 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        int m = s.size(), n = t.size();
-        unordered_map<char,int> tFreq;
-        int left = 0, right = 0;
-        int count = 0; // number of valid chars in window
-        int minStart = 0, minLen = INT_MAX;
+        int n = t.size();
+        unordered_map<char, int> tMap;
         
         for(char c : t) {
-            tFreq[c]++;
+            tMap[c]++;
         }
         
-        while(right < m) {
-            char curr = s[right];
+        int left = 0, right = 0, minLen = INT_MAX, minLeft = 0, count = t.size();
+        while(right < s.size()) {
+            char sRight = s[right];
             
-            if(tFreq[curr] > 0) count++;
-            tFreq[curr]--;
+            if(tMap[sRight] > 0)
+                count--;
             
-            if(count == n) {
-                while(left < right && tFreq[s[left]] < 0) {
-                    tFreq[s[left]]++;
-                    left++;
+            tMap[sRight]--;
+             
+            // move left ptr if valid window
+ 
+            while(count == 0) {
+                char sLeft = s[left];
+                int currWindowLen = right - left + 1;
+                if(currWindowLen < minLen) {
+                    minLen = currWindowLen;
+                    minLeft = left;
                 }
-                if(minLen > (right - left + 1)) {
-                    minLen = right - left + 1;
-                    minStart = left;
+                tMap[sLeft]++;
+                if(tMap[sLeft] > 0) {
+                    count++;
                 }
+                left++;
             }
+            right++;
             
-           right++;
         }
         
         if(minLen == INT_MAX) return "";
-        return s.substr(minStart, minLen);
+        return s.substr(minLeft, minLen);
     }
 };
 
-
 /*
-closest left char
-closest right char
+move left ptr if the window is still valid to get min window
+valid window = every char in t is in window
 
-s = baacabac  t = cba
-
-baac
-acab
-abac
-bac
+2 hashmaps?
 */
