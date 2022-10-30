@@ -35,8 +35,9 @@ public:
                 continue;
             }
             
+            // Found food
             if(grid[x][y] == '#') {
-                stepsFoundFood.insert(steps);
+                return steps;
             }
             
             // Push up,left,right,down
@@ -46,16 +47,8 @@ public:
             seen[x][y] = true;
         }
         
-        if(stepsFoundFood.size() == 0) {
-            return -1;
-        }
         
-        int minSteps = INT_MAX;
-        for(int steps : stepsFoundFood) {
-            minSteps = min(minSteps, steps);
-        }
-        
-        return minSteps;
+        return -1;
     }
 };
 
