@@ -11,20 +11,15 @@ public:
         };
         
         // insert starting pos into queue;
-        bool foundStart = false;
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < m; j++) {
                 if(grid[i][j] == '*') {
                     que.push({i, j, 0});
-                    foundStart = true;
                     break;
                 }
             }
-            if(foundStart)
-                break;
         }
         
-        unordered_set<int> stepsFoundFood;
         while(!que.empty()) {
             auto front = que.front();
             int x = front[0], y = front[1], steps = front[2];
