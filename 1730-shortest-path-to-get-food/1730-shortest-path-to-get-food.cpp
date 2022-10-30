@@ -40,7 +40,7 @@ public:
                 return steps;
             }
             
-            // Push up,left,right,down
+            // Push into queue up,left,right,down
             for(auto coord : dir) {
                 que.push({x+coord[0], y+coord[1], steps+1});
             }
