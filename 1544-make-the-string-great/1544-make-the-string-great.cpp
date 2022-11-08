@@ -1,23 +1,17 @@
 class Solution {
 public:
     string makeGood(string s) {
-        string ans = "";
-        stack<char> stck;
+        vector<char> stck;
         
         for(char c : s) {
-            if(!stck.empty() && abs(stck.top() - c) == 32) {
-                stck.pop();
+            if(!stck.empty() && abs(stck.back() - c) == 32) {
+                stck.pop_back();
             } else {
-                stck.push(c);
+                stck.push_back(c);
             }
         }
         
-        while(stck.size()) {
-            ans += stck.top();
-            stck.pop();
-        }
-        
-        reverse(ans.begin(), ans.end());
+        string ans(stck.begin(), stck.end());
         return ans;
     }
 };
