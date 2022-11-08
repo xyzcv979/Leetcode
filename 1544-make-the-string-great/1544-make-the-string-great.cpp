@@ -5,12 +5,8 @@ public:
         stack<char> stck;
         
         for(char c : s) {
-            if(stck.size() != 0) {
-                char top = stck.top();
-                if((isupper(top) && tolower(top) == c) || (isupper(c) && tolower(c) == top))
-                    stck.pop();
-                else
-                    stck.push(c);
+            if(!stck.empty() && abs(stck.top() - c) == 32) {
+                stck.pop();
             } else {
                 stck.push(c);
             }
