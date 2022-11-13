@@ -29,25 +29,19 @@
  */
 class Solution {
 public:
-    unordered_map<int, int> depthMp;
     int depthSum(vector<NestedInteger>& nestedList) {
-        dfs(nestedList, 0, 1);
-        
-        int sum = 0;
-        for(auto kv : depthMp) {
-            sum += (kv.first * kv.second);
-        }
-        return sum;
+        return dfs(nestedList, 1);
     }
     
-    void dfs(vector<NestedInteger>& nestedList, int i, int depth) {
-        if(i == nestedList.size()) return;
-
-        if(nestedList[i].isInteger()) {
-            depthMp[depth] += nestedList[i].getInteger();            
-        } else {
-            dfs(nestedList[i].getList(), 0, depth+1);
+    int dfs(vector<NestedInteger>& nestedList, int depth) {
+        int sum = 0;
+        for(auto list : nestedList) {
+            if(list.isInteger()) {
+                sum += (list.getInteger() * depth);
+            } else {
+                sum += dfs(list.getList(), depth+1);
+            }
         }
-        dfs(nestedList, i+1, depth);
+        return sum;
     }
 };
