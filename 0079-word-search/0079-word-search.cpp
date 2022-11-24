@@ -40,4 +40,8 @@ public:
 backtracking
 try one char, erase it and try another char
 all 4 directions
+
+can't do dfs with visited set because you're revisiting spots on other dfs calls so they interfere with each other
+
+need backtrack, set to 'visited' and set it back
 */
