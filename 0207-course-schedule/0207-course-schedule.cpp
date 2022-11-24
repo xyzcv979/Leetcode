@@ -1,53 +1,35 @@
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        int n = prerequisites.size();
-        map<int, vector<int>> adjMap;
-        unordered_set<int> visited;
+        vector<vector<int>> adjList(numCourses, vector<int>());
+        vector<int> indegrees(numCourses,0);
         
-        // build adj list
-        for(int i = 0; i < n; i++) {
-            adjMap[prerequisites[i][0]].push_back(prerequisites[i][1]);
-        } 
+        for(auto& p : prerequisites) {
+            adjList[p[1]].push_back(p[0]);
+            indegrees[p[0]]++;
+        }
         
+        queue<int> que;
         for(int i = 0; i < numCourses; i++) {
-            if(!dfs(adjMap, visited, i)) {
-                return false;
+            if(indegrees[i] == 0) {
+                que.push(i);
             }
         }
-        return true;
-    }
-    
-    bool dfs(map<int, vector<int>>& adjMap, unordered_set<int>& visited, int courseNum) {
-        if(visited.find(courseNum) != visited.end()) // Cycle detected
-            return false;
-        
-        vector<int> neighbors = adjMap[courseNum];
-        if(neighbors.empty())
-            return true;
-        
-        visited.insert(courseNum);
-        
-        for(int i = 0; i < neighbors.size(); i++) {
-            if(!dfs(adjMap, visited, neighbors[i]))
-                return false;
+        while(!que.empty()) {
+            int curr = que.front();
+            que.pop();
+            numCourses--; // check for cycles?
             
+            // loop neighbors to remove indegrees
+            for(int neigh : adjList[curr])
+                if(--indegrees[neigh] == 0) que.push(neigh);
         }
-        adjMap[courseNum].clear(); // As long as you're getting true from this path, delete its adjacent nodes
-        visited.erase(courseNum);
-        return true;
+        
+        return numCourses == 0;
     }
 };
 
 /*
 topological sorting
-
-0 -> 2 -> 3 -> 4
-|
-v
-1
-
-dfs till end, mark end points as done
-
-cycle = not possible
+put nodes into queue that have 0 indegrees
 */
