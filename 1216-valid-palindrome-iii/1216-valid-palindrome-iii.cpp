@@ -15,8 +15,11 @@ public:
         
         int k;
         if(s[left] != s[right]) {
+            // Mismatch, incr left or decr right
+            // Add k counter
             k = 1 + min(dfs(s,left+1, right), dfs(s,left,right-1));
         } else {
+            // They match, incr left and decr right
             k = dfs(s,left+1,right-1);
         }
         
@@ -31,8 +34,4 @@ remove up to k elements to make palindrome
 dfs, take it or leave it
 either move right or left pointer when they mismatch
 
-bacabaaa
-acabaaa
-cabaa
-abaa
 */
