@@ -1,48 +1,42 @@
 class Solution {
 public:
-    map<int, int> memo;
+    map<int,int> memo;
     int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {
         int n = startTime.size();
         vector<vector<int>> jobs;
-        vector<int> newStartTime(n);
-        vector<int> dp(n,0);
         
         for(int i = 0; i < n; i++) {
             jobs.push_back({startTime[i], endTime[i], profit[i]});
         }
-        
         sort(jobs.begin(), jobs.end());
         
-        // Set sorted start times for binary search
+        vector<int> sortedStartTimes;
         for(int i = 0; i < n; i++) {
-            newStartTime[i] = jobs[i][0];
+            sortedStartTimes.push_back(jobs[i][0]);
         }
         
-        return findMaxProfit(jobs, newStartTime, n, 0);
+        return dfs(jobs,sortedStartTimes, 0);
     }
     
-    int findMaxProfit(vector<vector<int>>& jobs, vector<int>& startTime, int n, int pos) {
-        if(pos == n)
-            return 0;
+    int dfs(vector<vector<int>>& jobs, vector<int>& sortedStartTimes, int i) {
+        if(i == jobs.size()) return 0;
         
-        if(memo.find(pos) != memo.end())
-            return memo[pos];
+        if(memo.find(i) != memo.end())
+            return memo[i];
         
-        // Binary search: return iterator to first ele (startTime) which is >= than ele at jobs[pos][1] (job end time)
-        auto nextValidItr = lower_bound(startTime.begin(), startTime.end(), jobs[pos][1]) - startTime.begin();
+        auto nextJobIdx = lower_bound(sortedStartTimes.begin(), sortedStartTimes.end(), jobs[i][1]) - sortedStartTimes.begin();
         
-        // Take it or leave it
-        // If you take current job, pass in next valid job idx which is done via binary search
-        int maxProfit = max(findMaxProfit(jobs, startTime, n, pos+1), jobs[pos][2] + findMaxProfit(jobs, startTime, n, nextValidItr));
-
-        memo[pos] = maxProfit;
+        int maxProfit = max(dfs(jobs, sortedStartTimes, i+1), jobs[i][2] + dfs(jobs, sortedStartTimes, nextJobIdx));
+        
+        memo[i] = maxProfit;
+        
         return maxProfit;
     }
 };
 
 /*
-sort by start times first
-dp: take it or leave it
-binary search to optimize for searching for jobs that don't conflict with the job you picked
-linear search would take too long
+either take current job or skip it
+if take, need to find next available job you can take
+
+optimize with binary search and sorting
 */
